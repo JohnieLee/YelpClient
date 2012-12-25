@@ -11,14 +11,17 @@ logger = logging.getLogger(__name__)
 
 if __name__ == '__main__' :
     client = YelpClient(yelp_config.keys)
-    result_json = client.search_by_location(
-        location = '94043', term = 'Red Room', limit = 10, 
-        sort = YelpClient.SortType.BEST_MATCHED)
+    #result_json = client.search_by_location(
+    #    location = '94043', term = 'Red Room', limit = 10, 
+    #    sort = YelpClient.SortType.BEST_MATCHED)
 
-    logger.info("Total Results: " + str(result_json['total']))
+    result_json = client.search_by_geo_coord(latlong = (39.0639, -108.55), term='bars')
 
-    for business in result_json['businesses'] :
-        logger.info('Id: %s, Name: %s, Rating: %s' 
-            % (business['id'], business['name'], business['rating']))
+    if 'total' in result_json :
+        logger.info("Total Results: " + str(result_json['total']))
+
+        for business in result_json['businesses'] :
+            logger.info('Id: %s, Name: %s, Rating: %s' 
+                % (business['id'], business['name'], business['rating']))
         
         

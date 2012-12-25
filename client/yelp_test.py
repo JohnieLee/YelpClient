@@ -28,13 +28,13 @@ class YelpClientTest(unittest.TestCase) :
     @mock.patch("yelp.requests")
     def test_search_by_location(self, mock_requests, mock_time, mock_oauth2) :
         # Setup
-        expected_url = self._sign_request(YelpClient._search_api_path + 'location=FOO&term=term')
+        expected_url = self._sign_request(YelpClient._search_api_path + 'location=FOO&term=bars')
 
         mock_oauth2.return_value = 2000
         mock_time.return_value = 1000
 
         # Run
-        result = self.client.search_by_location(location = 'FOO', term = 'term')
+        result = self.client.search_by_location(location = 'FOO', term = 'bars')
 
         # Verify
         mock_time.assert_called_with()
@@ -46,6 +46,32 @@ class YelpClientTest(unittest.TestCase) :
     def test_search_by_location_missing_location(self) :
         '''Tests that search_by_location raises ValueError for no location arg'''
         self.assertRaises(ValueError, self.client.search_by_location, None)
+
+    @mock.patch("yelp.oauth2.generate_nonce")
+    @mock.patch("yelp.time.time")
+    @mock.patch("yelp.requests")
+    def test_search_by_geo_coord(self, mock_requests, mock_time, mock_oauth2) :
+        # Setup
+        expected_url = self._sign_request(YelpClient._search_api_path 
+            + 'll=39.0639,-108.55&term=bars')
+
+        mock_oauth2.return_value = 2000
+        mock_time.return_value = 1000
+
+        # Run
+        result = self.client.search_by_geo_coord(latlong = (39.0639, -108.55), term = 'bars')
+
+        # Verify
+        mock_time.assert_called_with()
+        mock_requests.get.assert_called_with(expected_url)
+        
+        self.assertTrue(mock_requests.get.return_value.json.called)
+        self.assertEqual(mock_requests.get.return_value.json.return_value, result)
+
+    def test_search_by_geo_coord_missing_latlong(self) :
+        '''Tests that search_by_location raises ValueError for no location arg'''
+        self.assertRaises(ValueError, self.client.search_by_geo_coord, None)
+        self.assertRaises(ValueError, self.client.search_by_geo_coord, (123.55,))
 
     def _sign_request(self, url) :
         consumer_key = oauth2.Consumer(self.keys['consumer_key'],

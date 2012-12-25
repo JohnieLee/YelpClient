@@ -105,3 +105,33 @@ class YelpClient(object) :
         }
 
         return self._search(**query_map)
+
+    def search_by_geo_coord(self, latlong, term = None, limit = None, offset = None, 
+                           sort = None, category = None, radius = None) :
+        '''Search by Location.
+
+            Params:
+                latlong  : Latitude/Longitude as tuple (float, float) [required]
+                term     : term to search for 
+                limit    : number of results to return
+                offset   : offset for the first result
+                sort     : Sort type.  Use the SortType enum 
+        '''
+
+        if latlong is None or len(latlong) <> 2:
+            raise ValueError("latlong is required.")
+
+        logger.debug('Searching for %s in %s' % (term, latlong))
+
+        query_map = {
+            'll' : ','.join(map(str, latlong)),
+            'term' : term,
+            'limit' : limit,
+            'offset' : offset,
+            'sort' : sort,
+            'category' : category,
+            'radius' : radius,
+        }
+
+        return self._search(**query_map)
+
