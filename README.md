@@ -12,6 +12,10 @@ Usage
     result_json = client.search_by_location(
         location = '94043', term = 'Red Rock', limit = 10, 
         sort = YelpClient.SortType.BEST_MATCHED)
+    
+    // OR search by geo coordinates
+    result_json = client.search_by_geo_coord(
+        latlong = (39.0639, -108.55), term='bars')
 
 yelp_config.keys is a dict with the following keys.  
 
