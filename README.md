@@ -1,0 +1,4 @@
+YelpClient
+==========
+
+Yelp API Client
