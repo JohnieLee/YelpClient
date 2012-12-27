@@ -1,17 +1,10 @@
-from yelp import YelpClient
-
-import mock
-import yelp
-import oauth2
-import unittest
+from __init__ import YelpClient
 
 import logging
 import logging.config
-
-
-logging_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(module)s : %(lineno)d - %(message)s'
-logging.basicConfig(level = logging.DEBUG, format=logging_fmt)
-logger = logging.getLogger(__name__)
+import mock
+import oauth2
+import unittest
 
 class YelpClientTest(unittest.TestCase) :
 
@@ -23,9 +16,9 @@ class YelpClientTest(unittest.TestCase) :
             'token_secret' : 'value4'}
         self.client = YelpClient(self.keys)
 
-    @mock.patch("yelp.oauth2.generate_nonce")
-    @mock.patch("yelp.time.time")
-    @mock.patch("yelp.requests")
+    @mock.patch("__init__.oauth2.generate_nonce")
+    @mock.patch("__init__.time.time")
+    @mock.patch("__init__.requests")
     def test_search_by_location(self, mock_requests, mock_time, mock_oauth2) :
         # Setup
         expected_url = self._sign_request(YelpClient._search_api_path + 'location=FOO&term=bars')
@@ -47,9 +40,9 @@ class YelpClientTest(unittest.TestCase) :
         '''Tests that search_by_location raises ValueError for no location arg'''
         self.assertRaises(ValueError, self.client.search_by_location, None)
 
-    @mock.patch("yelp.oauth2.generate_nonce")
-    @mock.patch("yelp.time.time")
-    @mock.patch("yelp.requests")
+    @mock.patch("__init__.oauth2.generate_nonce")
+    @mock.patch("__init__.time.time")
+    @mock.patch("__init__.requests")
     def test_search_by_geo_coord(self, mock_requests, mock_time, mock_oauth2) :
         # Setup
         expected_url = self._sign_request(YelpClient._search_api_path 
@@ -95,4 +88,8 @@ def main():
     unittest.main()
 
 if __name__ == '__main__':
+    logging_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(module)s : %(lineno)d - %(message)s'
+    logging.basicConfig(level = logging.DEBUG, format=logging_fmt)
+    logger = logging.getLogger(__name__)
+
     main()
