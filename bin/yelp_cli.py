@@ -30,25 +30,26 @@ class YelpCLI(object):
     def search(self, type, location, term):
         if type == 'LOCATION':
             result_json = self.client.search_by_location(
-                    location=location, term=term, limit=10,
-                    sort=YelpClient.SortType.BEST_MATCHED)
+                location=location, term=term, limit=10,
+                sort=YelpClient.SortType.BEST_MATCHED)
         elif type == 'GEO_COORD':
             latlong_tuple = ast.literal_eval(location)
             result_json = self.client.search_by_geo_coord(
-                    latlong=latlong_tuple, term='bars')
+                latlong=latlong_tuple, term='bars')
         else:
             raise ValueError('Invalid search type: %s' % type)
 
         if 'error' in result_json:
-            self.logger.error('API Client Error [%s]: %s' %
-                    (result_json['error']['id'], result_json['error']['text']))
+            self.logger.error(
+                'API Client Error [%s]: %s'
+                % (result_json['error']['id'], result_json['error']['text']))
         elif 'total' in result_json:
             self.logger.info('Total Results: ' + str(result_json['total']))
 
             for business in result_json['businesses']:
                 self.logger.info(
-                        'Id: %s, Name: %s, Rating: %s' %
-                        (business['id'], business['name'], business['rating']))
+                    'Id: %s, Name: %s, Rating: %s' %
+                    (business['id'], business['name'], business['rating']))
 
 
 if __name__ == '__main__':
