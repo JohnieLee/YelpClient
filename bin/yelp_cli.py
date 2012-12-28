@@ -59,7 +59,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Yelp client line interface')
     parser.add_argument('--keyfile', dest='keyfile',
                         help='file containing the yelp api keys',
-                        default='cfg/yelp_keys.json')
+                        default=sys.prefix + '/cfg/yelp_keys.json')
     parser.add_argument('--loctype', dest='loctype',
                         choices=['LOCATION', 'GEO_COORD'],
                         help='search location type', default='LOCATION')
