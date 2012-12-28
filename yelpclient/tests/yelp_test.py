@@ -1,4 +1,4 @@
-from __init__ import YelpClient
+from yelpclient import YelpClient
 
 import logging
 import logging.config
@@ -17,9 +17,9 @@ class YelpClientTest(unittest.TestCase):
             'token_secret': 'value4'}
         self.client = YelpClient(self.keys)
 
-    @mock.patch("__init__.oauth2.generate_nonce")
-    @mock.patch("__init__.time.time")
-    @mock.patch("__init__.requests")
+    @mock.patch("yelpclient.oauth2.generate_nonce")
+    @mock.patch("yelpclient.time.time")
+    @mock.patch("yelpclient.requests")
     def test_search_by_location(self, mock_requests, mock_time, mock_oauth2):
         # Setup
         expected_url = self._sign_request(
@@ -45,9 +45,9 @@ class YelpClientTest(unittest.TestCase):
         '''
         self.assertRaises(ValueError, self.client.search_by_location, None)
 
-    @mock.patch("__init__.oauth2.generate_nonce")
-    @mock.patch("__init__.time.time")
-    @mock.patch("__init__.requests")
+    @mock.patch("yelpclient.oauth2.generate_nonce")
+    @mock.patch("yelpclient.time.time")
+    @mock.patch("yelpclient.requests")
     def test_search_by_geo_coord(self, mock_requests, mock_time, mock_oauth2):
         # Setup
         expected_url = self._sign_request(
