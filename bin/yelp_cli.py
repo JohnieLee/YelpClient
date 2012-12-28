@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
   Simple CLI for the YelpClient library.
   Example Usage:
@@ -42,8 +43,7 @@ class YelpCLI(object):
             self.logger.error('API Client Error [%s]: %s' %
                     (result_json['error']['id'], result_json['error']['text']))
         elif 'total' in result_json:
-
-            self.logger.info("Total Results: " + str(result_json['total']))
+            self.logger.info('Total Results: ' + str(result_json['total']))
 
             for business in result_json['businesses']:
                 self.logger.info(
