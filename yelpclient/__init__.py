@@ -1,1 +1,1 @@
-from yelpclient import YelpClient
+from client import YelpClient
