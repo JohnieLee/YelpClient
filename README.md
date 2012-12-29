@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tazzy531/YelpClient.png)](https://travis-ci.org/tazzy531/YelpClient)
+
 YelpClient
 ==========
 
@@ -5,7 +7,6 @@ Yelp API Client - Python implementation.
 
 This client is a thin wrapper around the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
-[![Build Status](https://travis-ci.org/tazzy531/YelpClient.png)](https://travis-ci.org/tazzy531/YelpClient)
 
 Installation
 ============
