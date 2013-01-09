@@ -28,6 +28,7 @@ import oauth2
 import requests
 import time
 
+logger = logging.getLogger(__name__)
 
 class YelpClient(object):
     '''
@@ -44,16 +45,15 @@ class YelpClient(object):
     _business_api_path = _yelp_api_root + '/v2/business?'
 
     def __init__(self, yelp_keys):
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.info('Initializing YelpClient with %s'
-                         % yelp_keys['consumer_key'])
+        logger.info('Initializing YelpClient with %s'
+                    % yelp_keys['consumer_key'])
         self.__consumer_key = oauth2.Consumer(yelp_keys['consumer_key'],
                                               yelp_keys['consumer_secret'])
         self.__token = oauth2.Token(yelp_keys['token'],
                                     yelp_keys['token_secret'])
 
     def _sign_request(self, url):
-        self.logger.debug('Signing request for %s' % url)
+        logger.debug('Signing request for %s' % url)
         params = {
             'oauth_nonce': oauth2.generate_nonce(),
             'oauth_timestamp': int(time.time()),
@@ -72,9 +72,9 @@ class YelpClient(object):
 
         signed_url = self._sign_request(YelpClient._search_api_path
                                         + urlencode(filtered_query_map))
-        self.logger.debug('Signed url: %s' % signed_url)
+        logger.debug('Signed url: %s' % signed_url)
         result = requests.get(signed_url)
-        self.logger.debug('Executed request')
+        logger.debug('Executed request')
         return result.json()
 
     def search_by_location(self, location, term=None, limit=None, offset=None,
@@ -94,7 +94,7 @@ class YelpClient(object):
         if location is None:
             raise ValueError("location is required.")
 
-        self.logger.debug('Searching for %s in %s' % (term, location))
+        logger.debug('Searching for %s in %s' % (term, location))
 
         query_map = {
             'location': location,
@@ -123,7 +123,7 @@ class YelpClient(object):
         if latlong is None or len(latlong) != 2:
             raise ValueError("latlong is required.")
 
-        self.logger.debug('Searching for %s in %s' % (term, latlong))
+        logger.debug('Searching for %s in %s' % (term, latlong))
 
         query_map = {
             'll': ','.join(map(str, latlong)),
