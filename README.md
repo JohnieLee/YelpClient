@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tazzy531/YelpClient.png)](https://travis-ci.org/tazzy531/YelpClient)
+
 YelpClient
 ==========
 
@@ -5,8 +7,14 @@ Yelp API Client - Python implementation.
 
 This client is a thin wrapper around the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
+Requires
+========
+* oauth2
+* requests
+
 Installation
 ============
+    pip install oauth2 requests
     pip install git+https://github.com/tazzy531/YelpClient.git
 
 Usage
